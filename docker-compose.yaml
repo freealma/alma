@@ -1,0 +1,16 @@
+services:
+  alma:
+    build:
+      context: .
+      dockerfile: config/Dockerfile
+    container_name: alma_container
+    env_file:
+      - config/alma.env
+    ports:
+      - "8000:8000"
+    networks:
+      - srv_srv-network
+
+networks:
+  srv_srv-network:
+    external: true
