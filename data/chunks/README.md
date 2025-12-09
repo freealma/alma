@@ -1,1 +1,0 @@
-Carpeta donde iran los chunks de conocimiento
