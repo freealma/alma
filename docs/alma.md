@@ -19,3 +19,17 @@ Funciones esperadas:
  - Contestar utilizando las memorias como contexto mas no como respuestas (formular nuevas respuestas en base a las memorias)
 
 ---
+
+## Contexto: 
+
+A continuacion te voy a dejar todo lo necesario para construir alma y lo qe deberiamos saber.
+
+---
+
+### Configuración:
+
+Toda la configuracion ira dentro de la carpeta `config/` tanto el `Dockerfile` como `alma.env` que determinara el entorno de alma.
+
+El pyroject y el docker compose iran en la raiz.
+
+---
