@@ -33,3 +33,43 @@ Toda la configuracion ira dentro de la carpeta `config/` tanto el `Dockerfile` c
 El pyroject y el docker compose iran en la raiz.
 
 ---
+
+### Estructura fisica:
+
+Esta es la estructura fisica actual 
+
+```txt
+~/alma
+.
+├── config
+│   ├── alma.env
+│   ├── Dockerfile
+│   └── README.md
+├── db
+│   ├── alma.db
+│   └── README.md
+├── docker-compose.yaml
+├── docs
+│   ├── alma.md
+│   ├── git_standards.md
+│   └── README.md
+├── meta
+│   ├── README.md
+│   └── schema.sql
+├── pyproject.toml
+├── README.md
+└── src
+    ├── alma
+    │   ├── core
+    │   │   ├── chat.py
+    │   │   ├── __init__.py
+    │   │   └── llm_client.py
+    │   ├── __init__.py
+    │   ├── README.md
+    │   └── utils
+    │       ├── config.py
+    │       └── __init__.py
+    └── README.md
+```
+
+---
