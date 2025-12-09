@@ -42,24 +42,24 @@ Esta es la estructura fisica actual
 ~/alma
 .
 ├── config
-│   ├── alma.env
-│   ├── Dockerfile
+│   ├── alma.env                    # Configuracion de entorno de alma
+│   ├── Dockerfile                  # Configuracion del contenedor
 │   └── README.md
 ├── db
-│   ├── alma.db
+│   ├── alma.db                     # Base de datos para memorias de corto plazo
 │   └── README.md
-├── docker-compose.yaml
+├── docker-compose.yaml             # Orquestador general
 ├── docs
-│   ├── alma.md
-│   ├── git_standards.md
+│   ├── alma.md                     # Sprint actual de alma (este acrchivo)
+│   ├── git_standards.md            # Standars de trabajo en git (obviar)
 │   └── README.md
 ├── meta
 │   ├── README.md
-│   └── schema.sql
-├── pyproject.toml
+│   └── schema.sql                  # Schema para la base de datos
+├── pyproject.toml                  # Configuracion de dependencias
 ├── README.md
-└── src
-    ├── alma
+└── src                             # Codigo fuente
+    ├── alma                        # Paquete python alma
     │   ├── core
     │   │   ├── chat.py
     │   │   ├── __init__.py
