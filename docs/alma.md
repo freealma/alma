@@ -61,13 +61,13 @@ Esta es la estructura fisica actual
 └── src                             # Codigo fuente
     ├── alma                        # Paquete python alma
     │   ├── core
-    │   │   ├── chat.py
+    │   │   ├── chat.py             # Script para chat
     │   │   ├── __init__.py
-    │   │   └── llm_client.py
+    │   │   └── llm_client.py       # Script de coneccion al LLM
     │   ├── __init__.py
     │   ├── README.md
     │   └── utils
-    │       ├── config.py
+    │       ├── config.py           # Configuracion general
     │       └── __init__.py
     └── README.md
 ```
