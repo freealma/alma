@@ -1,62 +1,107 @@
 
-# 🧠 Alma - Asistente de Inteligencia Artificial para Ciberseguridad
+# Alma - AI Assistant CLI with Memory
 
-## 🌟 Visión del Proyecto
-Alma es un asistente de IA especializado en ciberseguridad y pentesting, diseñado para crecer y aprender de manera autónoma mientras ayuda en tareas de seguridad ofensiva y defensiva.
+Alma es un asistente AI conversacional con memoria de corto plazo, construido como una interfaz CLI.
 
-## 🏗️ Arquitectura del Proyecto
+## Características
 
-### 📁 Estructura de Directorios
-```
-alma/
-├── 📂 data/           # Conocimiento, experiencias y aprendizajes de Alma
-│   ├── decisions/     # Decisiones arquitectónicas y su razonamiento
-│   ├── ideas/         # Conceptos creativos y posibilidades futuras
-│   ├── logs/          # Progreso cronológico y eventos
-│   └── memories/      # Experiencias y aprendizajes almacenados
-├── 📂 docs/           # Documentación y estándares
-├── 📂 meta/           # Esquemas, plantillas y configuración
-├── 📂 src/            # Código fuente de Alma
-└── 📄 Configuración   # Docker, Python, etc.
-```
+- 💬 Chat interactivo con DeepSeek AI
+- 🧠 Memoria de corto plazo con SQLite
+- 🔍 Búsqueda y recuperación de contexto
+- 🐳 Contenedor Docker listo
+- 🎨 Interfaz CLI enriquecida con Rich
 
-## 🔄 Flujo de Trabajo Git
+## Instalación
 
-### 🎯 Estrategia de Ramas
-- `main` → Código estable en producción
-- `feature/*` → Nuevas capacidades para Alma
-- `release/*` → Preparación de releases
-- `hotfix/*` → Correcciones urgentes
-
-### 📝 Estándares de Commits
+### Local
 ```bash
-feat: nueva funcionalidad
-fix: corrección de errores
-docs: documentación
-chore: configuración y herramientas
-```
-
-### 🔁 Proceso de Desarrollo
-1. Crear rama `feature/ALMA-XX-descripcion`
-2. Commits atómicos y descriptivos
-3. Crear rama `release/ALMA-XX` para testing
-4. Merge a `main` con tag de versión
-
-## 🐳 Desarrollo Rápido
-
-```bash
-# Iniciar con Docker
-docker-compose up -d
-
 # Instalar dependencias
-pip install -e .
+pip install .
+
+# Inicializar Alma
+alma init
+
+# Configurar API key en config/alma.env
 ```
 
-## 📈 Roadmap
-- [x] ALMA-01: Estructura inicial del proyecto
-- [ ] ALMA-02: Motor de memoria y aprendizaje
-- [ ] ALMA-03: Integración con herramientas de pentesting
-- [ ] ALMA-04: Sistema de plugins modular
+### Docker
+```bash
+# Construir y ejecutar
+docker-compose up --build
 
----
-*Alma está en desarrollo activo - ¡Tu contribución es bienvenida!*
+# Ejecutar comandos dentro del contenedor
+docker-compose run alma [comando]
+```
+
+## Uso
+
+```bash
+# Iniciar chat
+alma chat
+
+# Chat con sesión específica
+alma chat --session proyecto_x
+
+# Gestionar memorias
+alma memory
+alma memory --search "python"
+alma memory "memory_key"
+
+# Verificar configuración
+alma test
+
+# Ver versión
+alma version
+```
+
+## Estructura
+
+- `src/alma/core/chat.py` - Loop principal del chat
+- `src/alma/core/llm_client.py` - Cliente LLM DeepSeek
+- `src/alma/core/db.py` - Gestión de base de datos SQLite
+- `config/` - Configuración y Dockerfile
+- `db/` - Base de datos SQLite
+- `meta/` - Esquemas y metadatos
+
+
+## 7. Cómo usar el sistema
+
+1. **Primero, configura tu API key**:
+   ```bash
+   cp config/alma.env.example config/alma.env
+   # Edita config/alma.env y agrega tu DEEPSEEK_API_KEY
+   ```
+
+2. **Instalación local**:
+   ```bash
+   # Instalar dependencias
+   pip install -e .
+   
+   # Inicializar
+   alma init
+   
+   # Probar
+   alma test
+   
+   # Iniciar chat
+   alma chat
+   ```
+
+3. **Usar con Docker**:
+   ```bash
+   # Construir
+   docker-compose build
+   
+   # Ejecutar
+   docker-compose up
+   ```
+
+## Próximos pasos sugeridos
+
+1. **Agente con funciones**: Agregar herramientas para ejecutar código, leer archivos, etc.
+2. **Memoria a largo plazo**: Implementar embeddings y búsqueda semántica
+3. **Mejorar prompts**: Refinar el sistema prompt para mejores respuestas
+4. **Interfaz web**: Agregar una interfaz web con FastAPI
+5. **Plugin system**: Sistema de plugins para extender funcionalidades
+
+El sistema está diseñado para ser modular y fácil de extender. ¡Comencemos a chatear con Alma y veamos cómo podemos mejorarlo juntos!
