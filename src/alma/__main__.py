@@ -1,9 +1,13 @@
 import typer
 from rich.console import Console
 from rich.panel import Panel
-import os
+import sys
 from pathlib import Path
-from .core.chat import chat, memory, test
+
+# Importar funciones y módulos
+from .core.chat import chat as chat_command
+from .core.memory import app as memory_app
+from .core.test import app as test_app
 
 console = Console()
 
@@ -14,9 +18,10 @@ app = typer.Typer(
     add_completion=False
 )
 
-app.command()(chat)
-app.command()(memory)
-app.command()(test)
+# Registrar comandos
+app.command()(chat_command)           # alma chat
+app.add_typer(memory_app, name="memory")  # alma memory list/search/show/stats
+app.add_typer(test_app, name="test")      # alma test all/db/llm
 
 @app.callback()
 def callback():
@@ -43,17 +48,9 @@ def init():
         db_dir = Path("db")
         db_dir.mkdir(exist_ok=True)
         
-        # Import schema and initialize database
-        schema_path = Path(__file__).parent.parent.parent / "meta" / "schema.sql"
-        
-        if not schema_path.exists():
-            console.print(f"[red]Schema file not found at: {schema_path}[/red]")
-            return
-        
         # Import db module to initialize
         from .core.db import memory_db
         
-        # The db initialization happens automatically in MemoryDB.__init__
         console.print("[green]✓ Database initialized[/green]")
         
         # Test LLM client
@@ -72,7 +69,6 @@ def init():
         import traceback
         console.print(f"[dim]{traceback.format_exc()}[/dim]")
 
-# Add a wrapper to automatically init db if needed
 def ensure_initialized():
     """Ensure database is initialized before running commands"""
     db_path = Path("db/alma.db")
@@ -80,11 +76,9 @@ def ensure_initialized():
         console.print("[yellow]Database not found. Running initialization...[/yellow]")
         init()
 
-# Override the main entry point to ensure initialization
 def main():
     # Check if we're running a command that needs db
-    import sys
-    if len(sys.argv) > 1 and sys.argv[1] not in ['version', 'init']:
+    if len(sys.argv) > 1 and sys.argv[1] not in ['version', 'init', 'test']:
         ensure_initialized()
     
     # Run the app
