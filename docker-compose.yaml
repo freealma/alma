@@ -3,14 +3,11 @@ services:
     build:
       context: .
       dockerfile: config/Dockerfile
-    container_name: alma_container
-    env_file:
-      - config/alma.env
-    ports:
-      - "8000:8000"
-    networks:
-      - srv_srv-network
-
-networks:
-  srv_srv-network:
-    external: true
+    volumes:
+      - ./db:/app/db
+      - ./config/alma.env:/app/config/alma.env:ro
+    environment:
+      - ENVIRONMENT=production
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
