@@ -62,6 +62,7 @@ Esta es la estructura fisica actual
     ├── alma                        # Paquete python alma
     │   ├── core
     │   │   ├── chat.py             # Script para chat
+    │   │   ├── db.py               # Manejo de base de datos
     │   │   ├── __init__.py
     │   │   └── llm_client.py       # Script de coneccion al LLM
     │   ├── __init__.py
