@@ -73,3 +73,16 @@ Esta es la estructura fisica actual
 ```
 
 ---
+
+### Tecnologias a utilizar.
+
+
+**Server LLM:** Utilizaremos lang chain para el servicio llm y el cmportamiento como agente
+
+**Typer:** Para interfaz de comandos
+
+**Rich:** Para enriquecer el terminal
+
+**SQLite3:** Para el manejo de las memorias de corto plazo
+
+---
