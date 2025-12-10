@@ -9,8 +9,6 @@ services:
       - ./meta:/app/meta:ro
     environment:
       - ENVIRONMENT=production
-    command: >
-      sh -c "alma init && alma chat"
     stdin_open: true
     tty: true
     restart: unless-stopped
