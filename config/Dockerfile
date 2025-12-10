@@ -1,34 +1,25 @@
-# config/Dockerfile
 FROM python:3.11-slim
 
 WORKDIR /app
 
-# Instalar dependencias del sistema
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
-    curl \
-    software-properties-common \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar Poetry
-RUN pip install poetry
+# Copy requirements first for better caching
+COPY pyproject.toml .
+RUN pip install --no-cache-dir .
 
-# Configurar Poetry para no crear un entorno virtual
-RUN poetry config virtualenvs.create false
+# Copy application
+COPY src/alma ./src/alma
+COPY config/alma.env ./config/alma.env
 
-# Copiar archivos de dependencias
-COPY pyproject.toml poetry.lock* ./
+# Create necessary directories (empty, will be mounted as volumes)
+RUN mkdir -p db
 
-# Instalar dependencias
-RUN poetry install --no-dev
+# Set environment
+ENV PYTHONPATH=/app/src
 
-# Copiar el código fuente
-COPY src/ ./src/
-COPY config/alma.env ./.env
-
-# Exponer el puerto
-EXPOSE 8000
-
-# Comando por defecto
-CMD ["alma", "start"]
+# Run alma
+ENTRYPOINT ["alma"]
+CMD ["chat"]
