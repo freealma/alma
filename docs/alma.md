@@ -87,3 +87,21 @@ Esta es la estructura fisica actual
 **SQLite3:** Para el manejo de las memorias de corto plazo
 
 ---
+
+### ``schema.sql`` 
+
+Este es el schema con el que vamos a trabajar en principio.
+
+```sql
+CREATE TABLE IF NOT EXISTS memories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    key TEXT UNIQUE,
+    value TEXT,
+    scope TEXT DEFAULT 'global',           -- global, session, project
+    type TEXT DEFAULT 'string',            -- para futuras evoluciones
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+
+---
