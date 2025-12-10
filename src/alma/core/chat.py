@@ -4,8 +4,7 @@ from rich.panel import Panel
 from rich.markdown import Markdown
 from rich.live import Live
 from rich.status import Status
-from typing import List, Dict, Optional
-import json
+from typing import List, Dict
 from datetime import datetime
 
 from .llm_client import llm_client
@@ -13,7 +12,6 @@ from .db import memory_db
 from ..utils.config import config
 
 console = Console()
-app = typer.Typer(help="Alma Chat Interface")
 
 class ChatSession:
     def __init__(self, session_id: str = "default"):
@@ -147,10 +145,7 @@ class ChatSession:
         else:
             self.console.print("[yellow]No memories found.[/yellow]")
 
-@app.command()
-def chat(
-    session: str = typer.Option("default", "--session", "-s", help="Session ID for memory isolation")
-):
+def chat(session: str = "default"):
     """Start interactive chat session"""
     # Test connection
     console.print("[cyan]Testing connection to DeepSeek API...[/cyan]")
@@ -161,79 +156,11 @@ def chat(
     console.print("[green]✓ Connection successful![/green]\n")
     
     # Initialize and start chat session
-    session = ChatSession(session_id=session)
-    session.chat_loop()
-
-@app.command()
-def memory(
-    key: str = typer.Argument(None, help="Memory key to retrieve"),
-    search: str = typer.Option(None, "--search", "-s", help="Search memories by content"),
-    limit: int = typer.Option(10, "--limit", "-l", help="Limit number of results")
-):
-    """Memory management commands"""
-    if search:
-        results = memory_db.search_memories(search, limit=limit)
-        if results:
-            console.print(f"[bold]Search results for '{search}':[/bold]")
-            for key, value, scope, timestamp in results:
-                console.print(Panel(
-                    f"[bold]Key:[/bold] {key}\n"
-                    f"[bold]Scope:[/bold] {scope}\n"
-                    f"[bold]Time:[/bold] {timestamp}\n\n"
-                    f"{value}",
-                    title=f"Memory"
-                ))
-        else:
-            console.print(f"[yellow]No memories found for '{search}'[/yellow]")
-    elif key:
-        value = memory_db.get_memory(key)
-        if value:
-            console.print(Panel(
-                f"[bold]Key:[/bold] {key}\n\n{value}",
-                title="Memory"
-            ))
-        else:
-            console.print(f"[yellow]Memory '{key}' not found[/yellow]")
-    else:
-        # Show recent memories
-        memories = memory_db.get_recent_memories(limit=limit)
-        if memories:
-            console.print(f"[bold]Recent Memories (latest {limit}):[/bold]")
-            for key, value, scope, timestamp in memories:
-                truncated_value = value[:100] + "..." if len(value) > 100 else value
-                console.print(f"  • [cyan]{key}[/cyan]")
-                console.print(f"    Scope: {scope}, Time: {timestamp}")
-                console.print(f"    Value: {truncated_value}\n")
-        else:
-            console.print("[yellow]No memories found[/yellow]")
-
-@app.command()
-def test():
-    """Test Alma configuration and connections"""
-    console.print("[bold cyan]Testing Alma Configuration...[/bold cyan]\n")
-    
-    # Test config
-    try:
-        from ..utils.config import config
-        config.validate()
-        console.print("[green]✓ Configuration loaded successfully[/green]")
-    except Exception as e:
-        console.print(f"[red]✗ Configuration error: {e}[/red]")
-        return
-    
-    # Test database
-    try:
-        memory_db.init_db()
-        console.print("[green]✓ Database connection successful[/green]")
-    except Exception as e:
-        console.print(f"[red]✗ Database error: {e}[/red]")
-    
-    # Test LLM connection
-    console.print("\n[cyan]Testing LLM connection...[/cyan]")
-    if llm_client.test_connection():
-        console.print("[green]✓ LLM connection successful[/green]")
-    else:
-        console.print("[red]✗ LLM connection failed[/red]")
+    chat_session = ChatSession(session_id=session)
+    chat_session.chat_loop()
 
 if __name__ == "__main__":
+    import typer
+    app = typer.Typer()
+    app.command()(chat)
     app()
