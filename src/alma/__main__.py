@@ -3,8 +3,7 @@ from rich.console import Console
 from rich.panel import Panel
 import os
 from pathlib import Path
-
-from .core.chat import app as chat_app
+from .core.chat import chat, memory, test
 
 console = Console()
 
@@ -15,8 +14,9 @@ app = typer.Typer(
     add_completion=False
 )
 
-# Add commands from chat module
-app.add_typer(chat_app, name="chat")
+app.command()(chat)
+app.command()(memory)
+app.command()(test)
 
 @app.callback()
 def callback():
