@@ -104,5 +104,30 @@ CREATE TABLE IF NOT EXISTS memories (
 );
 ```
 
-
 ---
+
+## Respuesta esperada:
+
+Entiendo que ahi muchas cosas por mejorar pero estamos en las primeras versiones vamos a trabajar en la coneccion base y que pueda responder a travez del chat y luego ya iremos agregando cosas pero por ahora quiisera hacer el chat que conecte y agregar memorias simples
+
+### Scripts esperados:
+
+ - chat.py: Script loop del chat
+    
+ - llm_client.py: Coneccion a llm a travez de deepseek api
+
+ - db.py: Manejo de memorias para subir memorias y llamar memorias (no complejizar en principio)
+
+ - config.py: Configuracion general de alma
+
+ ### Configuraciones esperadas
+
+ - docker-compose.yaml: Orquestador general
+
+ - pyproject.toml: Script con dependencias 
+
+ - Dockerfile
+
+ ---
+
+ > Nota: No complejizar en principio mantengamos con pocos scripts y vamos mejorando
