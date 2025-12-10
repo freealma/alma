@@ -1,0 +1,14 @@
+services:
+  alma:
+    build:
+      context: .
+      dockerfile: config/Dockerfile
+    volumes:
+      - ./db:/app/db
+      - ./config/alma.env:/app/config/alma.env:ro
+      - ./meta:/app/meta:ro
+    environment:
+      - ENVIRONMENT=production
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
