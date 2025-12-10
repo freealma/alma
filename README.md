@@ -1,107 +1,118 @@
-
 # Alma - AI Assistant CLI with Memory
 
-Alma es un asistente AI conversacional con memoria de corto plazo, construido como una interfaz CLI.
+Alma es un asistente AI conversacional con memoria de corto plazo, construido como interfaz CLI. 
+Actualmente en fase MVP con funcionalidades básicas de chat y memoria.
 
-## Características
+## 🚀 Estado Actual: MVP Básico
 
-- 💬 Chat interactivo con DeepSeek AI
-- 🧠 Memoria de corto plazo con SQLite
-- 🔍 Búsqueda y recuperación de contexto
-- 🐳 Contenedor Docker listo
-- 🎨 Interfaz CLI enriquecida con Rich
+### ✅ **Funciones Implementadas**
+- **Chat interactivo**: Conversación con DeepSeek API
+- **Memoria automática**: Guarda todas las conversaciones en SQLite
+- **Consulta de memorias**: Búsqueda y visualización de historial
+- **Dockerizado**: Contenedor listo para usar
 
-## Instalación
+### ❌ **Funciones Pendientes** (objetivos futuros)
+- [ ] Agente con herramientas (ejecutar código, leer archivos)
+- [ ] Análisis de proyectos de código
+- [ ] Sistema de embeddings y búsqueda semántica
+- [ ] Gestión avanzada de memoria
 
-### Local
+## 📦 Instalación Rápida
+
+### Con Docker (recomendado):
 ```bash
-# Instalar dependencias
-pip install .
+# 1. Clonar repositorio
+git clone <repo>
+cd alma
 
-# Inicializar Alma
+# 2. Configurar API key
+cp config/alma.env.example config/alma.env
+# Editar config/alma.env y agregar DEEPSEEK_API_KEY
+
+# 3. Construir y ejecutar
+docker compose build
+docker compose run --rm alma init
+docker compose run --rm alma chat test
+```
+
+### Sin Docker:
+```bash
+pip install -e .
+export DEEPSEEK_API_KEY="tu_key"
 alma init
-
-# Configurar API key en config/alma.env
+alma chat test
 ```
 
-### Docker
+## 🎯 Uso Básico
+
+### Comandos principales:
 ```bash
-# Construir y ejecutar
-docker-compose up --build
-
-# Ejecutar comandos dentro del contenedor
-docker-compose run alma [comando]
-```
-
-## Uso
-
-```bash
-# Iniciar chat
-alma chat
-
-# Chat con sesión específica
-alma chat --session proyecto_x
-
-# Gestionar memorias
-alma memory
-alma memory --search "python"
-alma memory "memory_key"
-
-# Verificar configuración
-alma test
+# Iniciar chat interactivo
+docker compose run --rm alma chat chat
 
 # Ver versión
-alma version
+docker compose run --rm alma version
+
+# Inicializar base de datos
+docker compose run --rm alma init
+
+# Probar conexiones
+docker compose run --rm alma chat test
 ```
 
-## Estructura
+### Gestión de memorias:
+```bash
+# Ver últimas 10 memorias
+docker compose run --rm alma chat memory
 
-- `src/alma/core/chat.py` - Loop principal del chat
-- `src/alma/core/llm_client.py` - Cliente LLM DeepSeek
-- `src/alma/core/db.py` - Gestión de base de datos SQLite
-- `config/` - Configuración y Dockerfile
-- `db/` - Base de datos SQLite
-- `meta/` - Esquemas y metadatos
+# Buscar en memorias
+docker compose run --rm alma chat memory --search "python"
 
+# Ver más memorias
+docker compose run --rm alma chat memory --limit 20
+```
 
-## 7. Cómo usar el sistema
+## 🔧 Estructura del Proyecto
+```
+alma/
+├── config/           # Configuración y Dockerfile
+├── db/              # Base de datos SQLite
+├── meta/            # Schemas SQL
+├── src/alma/        # Código fuente
+│   ├── core/        # Funcionalidades principales
+│   │   ├── chat.py      # Loop de chat
+│   │   ├── db.py        # Gestión de DB
+│   │   └── llm_client.py # Conexión LLM
+│   └── __main__.py  # CLI principal
+└── docker-compose.yaml
+```
 
-1. **Primero, configura tu API key**:
-   ```bash
-   cp config/alma.env.example config/alma.env
-   # Edita config/alma.env y agrega tu DEEPSEEK_API_KEY
-   ```
+## 🗃️ Esquema de Base de Datos
+```sql
+CREATE TABLE memories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    key TEXT UNIQUE,
+    value TEXT,
+    scope TEXT DEFAULT 'global',
+    type TEXT DEFAULT 'string',
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-2. **Instalación local**:
-   ```bash
-   # Instalar dependencias
-   pip install -e .
-   
-   # Inicializar
-   alma init
-   
-   # Probar
-   alma test
-   
-   # Iniciar chat
-   alma chat
-   ```
+## ⚠️ Limitaciones Actuales
+1. **No borra memorias**: Se acumulan indefinidamente
+2. **Sin herramientas de agente**: Solo chat básico
+3. **Comandos redundantes**: `alma chat chat` (a mejorar)
+4. **Contexto limitado**: Solo últimas conversaciones
 
-3. **Usar con Docker**:
-   ```bash
-   # Construir
-   docker-compose build
-   
-   # Ejecutar
-   docker-compose up
-   ```
+## 🚧 Próximos Pasos
+1. Agregar herramientas de agente (ejecutar código)
+2. Implementar sistema de embeddings
+3. Mejorar gestión de memoria (limpieza automática)
+4. Simplificar estructura de comandos
 
-## Próximos pasos sugeridos
-
-1. **Agente con funciones**: Agregar herramientas para ejecutar código, leer archivos, etc.
-2. **Memoria a largo plazo**: Implementar embeddings y búsqueda semántica
-3. **Mejorar prompts**: Refinar el sistema prompt para mejores respuestas
-4. **Interfaz web**: Agregar una interfaz web con FastAPI
-5. **Plugin system**: Sistema de plugins para extender funcionalidades
-
-El sistema está diseñado para ser modular y fácil de extender. ¡Comencemos a chatear con Alma y veamos cómo podemos mejorarlo juntos!
+## 🐛 Reportar Problemas
+Si encuentras algún error:
+1. Verificar que `config/alma.env` tenga la API key
+2. Probar conexión: `docker compose run --rm alma chat test`
+3. Reconstruir contenedor: `docker compose build --no-cache`
