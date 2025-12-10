@@ -6,8 +6,11 @@ services:
     volumes:
       - ./db:/app/db
       - ./config/alma.env:/app/config/alma.env:ro
+      - ./meta:/app/meta:ro
     environment:
       - ENVIRONMENT=production
+    command: >
+      sh -c "alma init && alma chat"
     stdin_open: true
     tty: true
     restart: unless-stopped
