@@ -66,6 +66,7 @@ Esta es la estructura fisica actual
     │   │   ├── __init__.py
     │   │   └── llm_client.py       # Script de coneccion al LLM
     │   ├── __init__.py
+    │   ├── __main__.py             # Script cli qe llama a las funciones
     │   ├── README.md
     │   └── utils
     │       ├── config.py           # Configuracion general
